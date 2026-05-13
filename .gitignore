@@ -1,21 +1,54 @@
+# Gradle
 .gradle
 **/build/
 !**/src/**/build/
-
-# Ignore Gradle GUI config
 gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# Avoid ignore Gradle wrappper properties
-!gradle-wrapper.properties
-
-# Cache of project
 .gradletasknamecache
 
-# Eclipse Gradle plugin generated files
-# Eclipse Core
+# Build outputs
+bin/
+out/
+*.class
+*.jar
+!gradle-wrapper.jar
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.settings/
 .project
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
+.factorypath
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+.jacoco/
+
+# Maven
+target/
+
+# IntelliJ
+out/
+
+# Local properties
+local.properties
+
+# Gradle wrapper properties (keep the wrapper files)
+!gradle-wrapper.properties
+!gradle-wrapper.jar
+
+# Instructions of assessment
+Coding-Exercise-Anz-Intermediate*

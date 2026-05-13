@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.openapi.generator' version '7.7.0'
+}
+
+group = 'com.zianpayne'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+def openApiGenerateInOutputDir = layout.buildDirectory.dir('generated/openapi/openApiGenerateIn')
+
+sourceSets {
+    main {
+        java {
+            srcDir openApiGenerateInOutputDir.map { it.dir('src/main/java') }
+        }
+    }
+}
+
+tasks.register('openApiGenerateIn', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = 'spring'
+    inputSpec = "$rootDir/interfaces/rest/spec.yaml"
+    outputDir = openApiGenerateInOutputDir.get().asFile.absolutePath
+    apiPackage = 'com.zianpayne.tokenization.adapter.in.rest'
+    modelPackage = 'com.zianpayne.tokenization.adapter.in.rest.model'
+    invokerPackage = 'com.zianpayne.tokenization.adapter.in.rest.invoker'
+
+    configOptions = [
+        interfaceOnly       : 'true',
+        useSpringBoot3      : 'true',
+        useTags             : 'true',
+        useJakartaEe        : 'true',
+        generateAliasAsModel: 'true',
+        openApiNullable     : 'false'
+    ]
+
+    globalProperties = [
+        apis           : '',
+        models         : '',
+        supportingFiles: ''
+    ]
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
+    runtimeOnly 'com.h2database:h2'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('openApiGenerateIn')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
