@@ -5,7 +5,13 @@
 
 ### Validation
 - Request validation is schema-driven (OpenAPI) at the REST boundary. Domain models keep core invariants in check. This gets handled by an ExceptionHandler, with different failure modes to help distinguish those consuming the API.
-- Bulk requests are all-or-nothing; 
+- Bulk requests are all-or-nothing.
+
+### Local Run
+- Build the runnable JAR: `./gradlew bootJar` (outputs `build/libs/anz-token-service.jar`).
+- Run it: `java -jar build/libs/anz-token-service.jar`.
+- Try requests via VS Code REST Client in [requests/tokenization.http](requests/tokenization.http).
+
 ## Future Considerations
 
 ### Spec

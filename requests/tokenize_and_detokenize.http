@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:3000
+
+### Tokenize - capture token
+# @name tokenizeSingle
+POST {{baseUrl}}/tokenize
+Content-Type: application/json
+
+{
+  "accountNumbers": [
+    { "value": "4111-1111-1111-1111" }
+  ]
+}
+
+@token = {{tokenizeSingle.response.body.tokens[0].value}}
+
+### Detokenize - reuse captured token
+POST {{baseUrl}}/detokenize
+Content-Type: application/json
+
+{
+  "tokens": [
+    { "value": "{{token}}" }
+  ]
+}
+
+### Tokenize - capture multiple tokens
+# @name tokenizeBatch
+POST {{baseUrl}}/tokenize
+Content-Type: application/json
+
+{
+  "accountNumbers": [
+    { "value": "4111-1111-1111-1111" },
+    { "value": "4444-3333-2222-1111" }
+  ]
+}
+
+@tokenA = {{tokenizeBatch.response.body.tokens[0].value}}
+@tokenB = {{tokenizeBatch.response.body.tokens[1].value}}
+
+### Detokenize - reuse captured tokens
+POST {{baseUrl}}/detokenize
+Content-Type: application/json
+
+{
+  "tokens": [
+    { "value": "{{tokenA}}" },
+    { "value": "{{tokenB}}" }
+  ]
+}
+

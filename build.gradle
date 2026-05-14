@@ -70,6 +70,10 @@ tasks.named('compileJava') {
     dependsOn tasks.named('openApiGenerateIn')
 }
 
+tasks.named('bootJar') {
+    archiveFileName = 'anz-token-service.jar'
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

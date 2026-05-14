@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:3000
+
+### Tokenize - invalid format (400 BAD_REQUEST)
+POST {{baseUrl}}/tokenize
+Content-Type: application/json
+
+{
+  "accountNumbers": [
+    { "value": "4111111111111111" }
+  ]
+}
+
+### Tokenize - empty list (400 BAD_REQUEST)
+POST {{baseUrl}}/tokenize
+Content-Type: application/json
+
+{
+  "accountNumbers": []
+}
+
+### Detokenize - invalid token (400 BAD_REQUEST)
+POST {{baseUrl}}/detokenize
+Content-Type: application/json
+
+{
+  "tokens": [
+    { "value": "short" }
+  ]
+}
+
+### Detokenize - unknown token (404 NOT_FOUND)
+POST {{baseUrl}}/detokenize
+Content-Type: application/json
+
+{
+  "tokens": [
+    { "value": "A1234567890123456789012345678901" }
+  ]
+}

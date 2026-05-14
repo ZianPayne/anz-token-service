@@ -9,3 +9,11 @@ spring:
   h2:
     console:
       enabled: true
+
+server:
+  port: 3000
+
+logger:
+  level:
+    root: INFO
+    com.zianpayne.tokenization: DEBUG
