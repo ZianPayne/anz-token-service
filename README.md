@@ -1,28 +1,43 @@
 # anz-token-service
 
+This is a simple submission for the ANZ-Software-Engineer Assignment for Z'Arn Payne.
 
-## Spec
-
-### Validation
-- Request validation is schema-driven (OpenAPI) at the REST boundary. Domain models keep core invariants in check. This gets handled by an ExceptionHandler, with different failure modes to help distinguish those consuming the API.
-- Bulk requests are all-or-nothing.
-
-### Local Run
+## Run Locally
 - Build the runnable JAR: `./gradlew bootJar` (outputs `build/libs/anz-token-service.jar`).
 - Run it: `java -jar build/libs/anz-token-service.jar`.
-- Try requests via VS Code REST Client in [requests/tokenization.http](requests/tokenization.http).
+- Try requests via VS Code REST Client in [requests/tokenize_and_detokenize.http](requests/tokenize_and_detokenize.http) and [requests/errors.http](requests/errors.http).
+
+## Architecture
+- API-first DTOs generated from OpenAPI; controllers implement generated interfaces.
+- Hexagonal layout: adapters for REST and persistence, application service for orchestration, domain model for invariants.
+- Persistence uses H2 (in-memory) through a JPA adapter and repository.
+
+## Spec
+- Endpoints: `POST /tokenize`, `POST /detokenize`.
+- Payloads: `AccountNumbers`, `Tokens`.
+- Error model: `ErrorResponse` for 400/404/500.
+
+## Validation
+- Request validation is schema-driven (OpenAPI) at the REST boundary.
+- Domain models keep core invariants in check.
+- Bulk requests are all-or-nothing.
+
+## Logging
+- Controller logs high-level request/response counts, no PII.
+- Service logs are `DEBUG` for flow and `WARN` for missing tokens.
+- Persistence adapter logs lookups and saves at `DEBUG`.
+
+## Error Modes
+- 400 for invalid payloads (validation or malformed JSON).
+- 404 for missing tokens on detokenize.
+- 500 for data access failures.
 
 ## Future Considerations
-
-### Spec
-Here are some more changes that I would consider adding to the spec with more information:
-* Extend the spec to have proper wrappers, rather than the simple arrays used so far.
-* Add more validation, currently no context on what consists of a valid payload (in terms of number of tokens etc) based on the documentation.
 
 ### As the library gets richer
 * In a production system where account numbers were rich objects with issuer, currency, and metadata fields, I'd introduce MapStruct there to keep the domain model decoupled from the API contract.
 
 ### Nice to haves
-* Proper exception handling, right now very simple error modes, rest layer, domain and persistence. Can perhaps make them more descriptive, add error models to handle multiple errors (admittedly the task is on the simpler side for this).
-* We kept validation to a bulk level. In future we could have per-item error reporting as a future extension. However, I felt that this would be behaviour that would need to be clarified in business requirements rather than something than done ad-hoc.
+* Error responses could include per-item failure details for bulk requests.
+* Consider REST guidance such as HATEOAS if the API grows beyond the current scope.
 

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Tokenization Service
-  description: A simple tokenization service for payment account numbers. Built for the ANZ coding assesment
+  description: A simple tokenization service for account numbers. Built for the ANZ coding assesment
   version: 1.0.0
 
 servers:
