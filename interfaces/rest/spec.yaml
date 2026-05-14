@@ -10,6 +10,8 @@ servers:
 paths:
   /tokenize:
     post:
+      tags:
+        - Token
       operationId: tokenize
       summary: Swap a collection of account numbers for tokens
       requestBody:
@@ -30,6 +32,8 @@ paths:
 
   /detokenize:
     post:
+      tags:
+        - Token
       operationId: detokenize
       summary: Swap a collection of tokens back for the original account numbers
       requestBody:
@@ -104,4 +108,4 @@ components:
       example:
         tokens:
           - value: 'fvMymE7X0Je1IzMDgWooV5iGBPw0yoFy'
-          - value: 'L4hKuBJHxe67ENSKLVbdIH8NhFefPui2'
+          

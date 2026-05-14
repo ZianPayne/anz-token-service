@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 public final class Token {
     private static final Pattern PATTERN = Pattern.compile("^[A-Za-z0-9]{32}$");
-
     private final String value;
 
     public Token(String value) {

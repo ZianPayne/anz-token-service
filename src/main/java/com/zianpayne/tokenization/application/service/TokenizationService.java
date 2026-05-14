@@ -9,6 +9,7 @@ import com.zianpayne.tokenization.domain.model.Tokens;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -21,15 +22,46 @@ public class TokenizationService implements TokenUseCase {
 
     @Override
     public Tokens tokenize(AccountNumbers accountNumbers) {
-        return null;
+        List<Token> tokens = accountNumbers.asList().stream()
+                .map(this::tokenizeSingle)
+                .toList();
+
+        return new Tokens(tokens);
     }
 
     @Override
     public AccountNumbers detokenize(Tokens tokens) {
-        return null;
+        List<AccountNumber> accountNumbers = tokens.asList().stream()
+                .map(this::detokenizeSingle)
+                .toList();
+
+        return new AccountNumbers(accountNumbers);
     }
 
     private Token generateToken() {
-        return null;
+        String generated = UUID.randomUUID().toString().replace("-", "");
+        return new Token(generated);
+    }
+
+    private Token tokenizeSingle(AccountNumber accountNumber) {
+        return tokenPort.findByAccountNumber(accountNumber)
+                .orElseGet(() -> {
+                    Token token = generateUniqueToken();
+                    tokenPort.save(accountNumber, token);
+                    return token;
+                });
+    }
+
+    private AccountNumber detokenizeSingle(Token token) {
+        return tokenPort.findAccountNumberByToken(token)
+                .orElseThrow(() -> new NoSuchElementException("Token not found: " + token.value()));
+    }
+
+    private Token generateUniqueToken() {
+        Token token;
+        do {
+            token = generateToken();
+        } while (tokenPort.findAccountNumberByToken(token).isPresent());
+        return token;
     }
 }

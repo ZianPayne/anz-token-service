@@ -1,19 +1,15 @@
 package com.zianpayne.tokenization.domain.model;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public final class AccountNumber {
-    private static final Pattern PATTERN = Pattern.compile("^\\d{4}-\\d{4}-\\d{4}-\\d{4}$");
+    private final Long value;
 
-    private final String value;
-
-    public AccountNumber(String value) {
+    public AccountNumber(Long value) {
         this.value = Objects.requireNonNull(value, "value");
-        validate(this.value);
     }
 
-    public String value() {
+    public Long value() {
         return value;
     }
 
@@ -33,11 +29,5 @@ public final class AccountNumber {
     @Override
     public String toString() {
         return "AccountNumber{" + value + '}';
-    }
-
-    private static void validate(String value) {
-        if (!PATTERN.matcher(value).matches()) {
-            throw new IllegalArgumentException("AccountNumber must match ####-####-####-####");
-        }
     }
 }

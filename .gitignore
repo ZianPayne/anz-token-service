@@ -6,8 +6,8 @@ gradle-app.setting
 .gradletasknamecache
 
 # Build outputs
-bin/
-out/
+/bin/
+/out/
 *.class
 *.jar
 !gradle-wrapper.jar
@@ -41,7 +41,7 @@ coverage/
 target/
 
 # IntelliJ
-out/
+/out/
 
 # Local properties
 local.properties
