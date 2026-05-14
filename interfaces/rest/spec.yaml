@@ -28,7 +28,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tokens'
         '400':
-          description: Bad request
+          description: Bad request, e.g. invalid account number format
           content:
             application/json:
               schema:
@@ -66,7 +66,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '400':
-          description: Bad request
+          description: Bad request, poor token format or duplicate tokens
           content:
             application/json:
               schema:
