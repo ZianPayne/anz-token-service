@@ -29,6 +29,16 @@ paths:
                 $ref: '#/components/schemas/Tokens'
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /detokenize:
     post:
@@ -51,8 +61,22 @@ paths:
                 $ref: '#/components/schemas/AccountNumbers'
         '404':
           description: One or more tokens not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -108,4 +132,17 @@ components:
       example:
         tokens:
           - value: 'fvMymE7X0Je1IzMDgWooV5iGBPw0yoFy'
+
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: 'BAD_REQUEST'
+        message:
+          type: string
+          example: 'Invalid request'
           
