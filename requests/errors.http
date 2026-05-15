@@ -37,3 +37,10 @@ Content-Type: application/json
     { "value": "A1234567890123456789012345678901" }
   ]
 }
+### Detokenize - empty list (400 BAD_REQUEST)
+POST {{baseUrl}}/detokenize
+Content-Type: application/json
+
+{
+  "tokens": []
+}
