@@ -9,12 +9,14 @@ import com.zianpayne.tokenization.domain.model.Tokens;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
+@Validated
 public class TokenizationService implements TokenUseCase {
     private static final Logger log = LoggerFactory.getLogger(TokenizationService.class);
     private final TokenPort tokenPort;
